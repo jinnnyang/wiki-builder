@@ -2,17 +2,44 @@ import { CheerioCrawler } from "crawlee";
 import fs from "fs/promises";
 import path from "path";
 import { html2markdown } from "../utils/html2text/src/index";
+import url2DotMdPath from "../utils/common/url2DotMdPath";
+import fileExists from "../utils/common/fileExists";
 
 const crawler = new CheerioCrawler({
   // Basic anti-crawling strategies:
   // Limit concurrency to avoid triggering rate limits
   maxConcurrency: 5,
   // Add a slight delay to be polite and avoid being blocked
-  maxRequestsPerMinute: 120,
+  maxRequestsPerMinute: 30,
+  maxRequestRetries: 4, // 最多重试4次，给足恢复时间
+  requestHandlerTimeoutSecs: 30, // 单个请求超时设为30秒
 
   // limit requests per crawl
-  maxRequestsPerCrawl: 2,
+  maxRequestsPerCrawl: 5,
 
+  // 导航前钩子，可以在这里修改请求配置或进行拦截
+  preNavigationHooks: [
+    async (crawlingContext, gotOptions) => {
+      const { request, log } = crawlingContext;
+      log.info(`即将请求: ${request.url}`);
+
+      // 在这里，你可以基于任何条件来决定是否跳过该请求。
+      // 例如，如果你想手动跳过某个特定的URL，可以这样做：
+      if (
+        await fileExists(
+          path.resolve(process.cwd(), "data", url2DotMdPath(request.url)),
+        )
+      ) {
+        log.warning(
+          `文件 ${(process.cwd(), "data", url2DotMdPath(request.url))} 已存在，跳过该请求`,
+        );
+        request.skipNavigation = true;
+        // throw new Error("Request blocked by preNavigationHooks");
+      }
+    },
+  ],
+
+  // 发起请求
   async requestHandler({ request, $, enqueueLinks, log }) {
     const title = $("title").text().trim();
     log.info(`Processing ${request.loadedUrl}: ${title}`);
@@ -43,29 +70,13 @@ const crawler = new CheerioCrawler({
     });
 
     // Determine save path
-    const url = new URL(request.loadedUrl);
-    const hostname = url.hostname;
-    let pathname = url.pathname;
-    let targetFile: string;
+    const targetFile = url2DotMdPath(request.loadedUrl);
+    const absolutePath = path.resolve(process.cwd(), "data", targetFile);
 
-    if (pathname.endsWith("/")) {
-      // If the leaf node is not a file (directory), save as index.md
-      targetFile = path.join("data", hostname, pathname, "index.md");
-    } else {
-      const basename = path.basename(pathname);
-      if (basename.includes(".")) {
-        // If it has an extension (like .html), replace it with .md
-        const mdPath = pathname.replace(/\.[^.]+$/, "") + ".md";
-        targetFile = path.join("data", hostname, mdPath);
-      } else {
-        // If it's a file without an extension, append .md
-        targetFile = path.join("data", hostname, `${pathname}.md`);
-      }
-    }
-
-    const absolutePath = path.resolve(process.cwd(), targetFile);
+    // Ensure Directory exists
     await fs.mkdir(path.dirname(absolutePath), { recursive: true });
 
+    // Save File
     await fs.writeFile(absolutePath, markdown);
     log.info(`Saved to ${absolutePath} (${markdown.length} bytes)`);
 
