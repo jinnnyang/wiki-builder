@@ -1,0 +1,4 @@
+- [x] Create `crawler/linux.die.net.ts` with `CheerioCrawler`.
+- [x] Implement path mapping logic for URL to local markdown file.
+- [x] Integrate `html2markdown` from `utils/html2text`.
+- [x] Test crawler.

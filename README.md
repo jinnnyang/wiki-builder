@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Wiki Builder
 
-## Getting Started
+Wiki Builder is a specialized toolkit designed to create raw material for the **Karathy LLM Wiki**. Its primary goal is to provide high-quality, structured, and clean learning materials for AI agents by crawling and converting online documentation into LLM-friendly Markdown format.
 
-First, run the development server:
+## 🚀 Features
+
+- **Specialized Crawlers**: Built-in support for `linux.die.net` and `man7.org` using [Crawlee](https://crawlee.dev/).
+- **Zero-Dependency Converter**: `html2text` utility that transforms complex HTML into clean Markdown without external dependencies like Turndown (though optional support is available).
+- **Anti-Crawling Strategies**: Integrated rate limiting, concurrency control, and browser-like headers to ensure reliable data extraction.
+- **Structured Data**: Automatically organizes crawled content into a hierarchical directory structure based on URL slugs.
+- **Modern Tech Stack**: Built with Next.js, TypeScript, and Tailwind CSS.
+
+## 📁 Project Structure
+
+```text
+wiki-builder/
+├── crawler/          # Crawler scripts (linux.die.net, man7.org)
+├── utils/html2text/  # Zero-dependency HTML-to-Markdown converter
+├── data/             # Generated Markdown files (ignored by git)
+├── storage/          # Crawlee local storage (ignored by git)
+├── app/              # Next.js frontend for browsing the wiki
+└── public/           # Static assets
+```
+
+## 🛠️ Getting Started
+
+### Prerequisites
+
+- Node.js (v20 or later)
+- npm, pnpm, or yarn
+
+### Installation
+
+```bash
+npm install
+# or
+pnpm install
+```
+
+### Running Crawlers
+
+To crawl documentation from `man7.org`:
+
+```bash
+npm run crawl:man7
+```
+
+To crawl documentation from `linux.die.net`:
+
+```bash
+npm run crawl:linux
+```
+
+*Note: You can configure `maxRequestsPerCrawl` in the crawler scripts for testing.*
+
+### Starting the Web Interface
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to browse your local wiki.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔧 Utilities
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### html2text
 
-## Learn More
+Located in `utils/html2text`, this is a standalone TypeScript library that converts HTML AST to Markdown AST and then serializes it. It handles:
+- Tables
+- Nested lists
+- Code blocks (with syntax highlighting support)
+- Definition lists
+- Images and Links
 
-To learn more about Next.js, take a look at the following resources:
+## 📄 License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
