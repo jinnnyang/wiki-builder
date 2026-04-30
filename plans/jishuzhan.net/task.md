@@ -1,0 +1,6 @@
+- [x] Create `crawler/jishuzhan.net.ts`
+- [x] Implement metadata extraction logic
+- [x] Implement `md-editor-v3` content cleaning
+- [x] Implement link enqueuing
+- [x] Verify crawler with a single article
+- [x] Verify crawler with multiple articles and categories
