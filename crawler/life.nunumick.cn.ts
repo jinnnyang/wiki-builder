@@ -12,8 +12,8 @@ const crawler = new CheerioCrawler({
   maxRequestRetries: 4,
   requestHandlerTimeoutSecs: 30,
 
-  // limit requests per crawl
-  maxRequestsPerCrawl: 20,
+  // // limit requests per crawl
+  // maxRequestsPerCrawl: 20,
 
   // 导航前钩子
   preNavigationHooks: [
@@ -21,7 +21,11 @@ const crawler = new CheerioCrawler({
       const { request, log } = crawlingContext;
       log.info(`即将请求: ${request.url}`);
 
-      const targetPath = path.resolve(process.cwd(), "data", url2DotMdPath(request.url));
+      const targetPath = path.resolve(
+        process.cwd(),
+        "data",
+        url2DotMdPath(request.url),
+      );
       if (await fileExists(targetPath)) {
         log.warning(`文件 ${targetPath} 已存在，跳过该请求`);
         request.skipNavigation = true;
@@ -32,16 +36,31 @@ const crawler = new CheerioCrawler({
   // 发起请求
   async requestHandler({ request, $, enqueueLinks, log }) {
     // 检查是否为具体的文章页面
-    const isArticle = request.loadedUrl?.match(/\/blog\/\d{4}\/\d{2}\/\d{2}\/.*\.html$/);
+    const isArticle = request.loadedUrl?.match(
+      /\/blog\/\d{4}\/\d{2}\/\d{2}\/.*\.html$/,
+    );
 
     if (isArticle) {
       log.info(`Processing Article: ${request.loadedUrl}`);
 
       // 提取元数据
-      const title = $("title").text().replace(/\s*-\s*默尘\s*$/, "").trim();
-      const author = $(".entry_data > span").eq(0).text().replace("作者：", "").trim();
-      const date = $(".entry_data > span").eq(1).text().replace("发布时间：", "").trim();
-      const category = $(".entry_data .entry_cate a").map((_, el) => $(el).text().trim()).get();
+      const title = $("title")
+        .text()
+        .replace(/\s*-\s*默尘\s*$/, "")
+        .trim();
+      const author = $(".entry_data > span")
+        .eq(0)
+        .text()
+        .replace("作者：", "")
+        .trim();
+      const date = $(".entry_data > span")
+        .eq(1)
+        .text()
+        .replace("发布时间：", "")
+        .trim();
+      const category = $(".entry_data .entry_cate a")
+        .map((_, el) => $(el).text().trim())
+        .get();
 
       // 提取正文
       const $content = $(".entry_cont");
@@ -77,9 +96,7 @@ const crawler = new CheerioCrawler({
 
     // 抓取更多的链接
     await enqueueLinks({
-      globs: [
-        "https://life.nunumick.cn/blog/**/*.html",
-      ],
+      globs: ["https://life.nunumick.cn/blog/**/*.html"],
     });
   },
 });
