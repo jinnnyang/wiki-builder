@@ -1,0 +1,7 @@
+- `[x]` Create `nunumick.blog.ts` script
+  - `[x]` Set up Crawlee CheerioCrawler
+  - `[x]` Implement metadata extraction (title, author, date, category)
+  - `[x]` Implement content extraction (`.entry_cont`) and conversion to Markdown
+  - `[x]` Add enqueue logic for blog posts (`https://life.nunumick.cn/blog/**/*.html`)
+- `[x]` Run and verify the crawler script locally against the test URL
+- `[x]` Create a walkthrough summarizing the implementation
