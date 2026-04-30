@@ -1,0 +1,7 @@
+- [x] Create `crawler/docs.astral.sh.ts`
+  - [x] Define basic configuration and constants
+  - [x] Implement `requestHandler` with MkDocs selectors
+  - [x] Implement link extraction and enqueuing
+- [x] Test the crawler with a single URL
+- [x] Run the crawler for the full documentation
+- [x] Verify the output Markdown files
