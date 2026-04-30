@@ -1,0 +1,8 @@
+- [x] Create `crawler/kexue.fm.ts`
+    - [x] Initialize PlaywrightCrawler
+    - [x] Implement metadata extraction
+    - [x] Implement MathJax transformation logic
+    - [x] Implement Markdown generation and file saving
+    - [x] Implement link enqueueing logic
+- [/] Test crawler on sample article
+- [ ] Verify output quality and math formatting
