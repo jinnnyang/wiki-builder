@@ -4,6 +4,7 @@ import path from "path";
 import { html2markdown } from "../utils/html2text/src/index";
 import url2DotMdPath from "../utils/common/url2DotMdPath";
 import fileExists from "../utils/common/fileExists";
+import getStoragePath from "../utils/common/getStoragePath";
 
 const crawler = new CheerioCrawler({
   // Basic anti-crawling strategies:
@@ -25,16 +26,10 @@ const crawler = new CheerioCrawler({
 
       // 在这里，你可以基于任何条件来决定是否跳过该请求。
       // 例如，如果你想手动跳过某个特定的URL，可以这样做：
-      if (
-        await fileExists(
-          path.resolve(process.cwd(), "data", url2DotMdPath(request.url)),
-        )
-      ) {
-        log.warning(
-          `文件 ${(process.cwd(), "data", url2DotMdPath(request.url))} 已存在，跳过该请求`,
-        );
+      const targetPath = getStoragePath(url2DotMdPath(request.url));
+      if (await fileExists(targetPath)) {
+        log.warning(`文件 ${targetPath} 已存在，跳过该请求`);
         request.skipNavigation = true;
-        // throw new Error("Request blocked by preNavigationHooks");
       }
     },
   ],
@@ -71,7 +66,7 @@ const crawler = new CheerioCrawler({
 
     // Determine save path
     const targetFile = url2DotMdPath(request.loadedUrl);
-    const absolutePath = path.resolve(process.cwd(), "data", targetFile);
+    const absolutePath = getStoragePath(targetFile);
 
     // Ensure Directory exists
     await fs.mkdir(path.dirname(absolutePath), { recursive: true });

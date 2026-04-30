@@ -4,6 +4,7 @@ import path from "path";
 import { html2markdown } from "../utils/html2text/src/index";
 import url2DotMdPath from "../utils/common/url2DotMdPath";
 import fileExists from "../utils/common/fileExists";
+import getStoragePath from "../utils/common/getStoragePath";
 
 const crawler = new CheerioCrawler({
   // Basic anti-crawling strategies:
@@ -21,11 +22,7 @@ const crawler = new CheerioCrawler({
       const { request, log } = crawlingContext;
       log.info(`即将请求: ${request.url}`);
 
-      const targetPath = path.resolve(
-        process.cwd(),
-        "data",
-        url2DotMdPath(request.url),
-      );
+      const targetPath = getStoragePath(url2DotMdPath(request.url));
       if (await fileExists(targetPath)) {
         log.warning(`文件 ${targetPath} 已存在，跳过该请求`);
         request.skipNavigation = true;
@@ -114,7 +111,7 @@ const crawler = new CheerioCrawler({
 
       // 5. 保存文件
       const targetFile = url2DotMdPath(request.loadedUrl!);
-      const absolutePath = path.resolve(process.cwd(), "data", targetFile);
+      const absolutePath = getStoragePath(targetFile);
 
       await fs.mkdir(path.dirname(absolutePath), { recursive: true });
       await fs.writeFile(absolutePath, markdown);
