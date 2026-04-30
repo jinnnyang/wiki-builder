@@ -1,0 +1,9 @@
+- [x] Create `crawler/crawlee.dev.ts`
+- [x] Implement `BasicCrawler` logic
+    - [x] Handle request and save content
+    - [x] Implement Regex for link extraction
+    - [x] Implement link normalization (add `.md` suffix)
+    - [x] Enqueue new links
+- [x] Verify implementation
+    - [x] Run crawler with a few URLs
+    - [x] Check saved files in `data/crawlee.dev/`
