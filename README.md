@@ -4,20 +4,24 @@ Wiki Builder is a specialized toolkit designed to create raw material for the **
 
 ## 🚀 Features
 
-- **Specialized Crawlers**: Built-in support for `linux.die.net` and `man7.org` using [Crawlee](https://crawlee.dev/).
-- **Zero-Dependency Converter**: `html2text` utility that transforms complex HTML into clean Markdown without external dependencies like Turndown (though optional support is available).
-- **Anti-Crawling Strategies**: Integrated rate limiting, concurrency control, and browser-like headers to ensure reliable data extraction.
-- **Structured Data**: Automatically organizes crawled content into a hierarchical directory structure based on URL slugs.
+- **Specialized Crawlers**: Support for 15+ documentation sites and blogs (e.g., `linux.die.net`, `nextjs.org`, `ruanyifeng.com`) using [Crawlee](https://crawlee.dev/).
+- **Intelligent Cleaning**: Automated framework detection (Hexo, Docusaurus, Next.js, etc.) and content cleaning for high-quality Markdown.
+- **Zero-Dependency Converter**: `html2text` utility that transforms complex HTML into clean Markdown.
+- **Anti-Crawling Strategies**: Integrated rate limiting, concurrency control, and browser-like headers.
+- **Structured Data**: Automatically organizes crawled content into a hierarchical directory structure.
 - **Modern Tech Stack**: Built with Next.js, TypeScript, and Tailwind CSS.
 
 ## 📁 Project Structure
 
 ```text
 wiki-builder/
-├── crawler/          # Crawler scripts (linux.die.net, man7.org)
-├── utils/html2text/  # Zero-dependency HTML-to-Markdown converter
-├── data/             # Generated Markdown files (ignored by git)
-├── storage/          # Crawlee local storage (ignored by git)
+├── crawler/          # Crawler scripts for various sites
+├── utils/
+│   ├── html2text/    # HTML-to-Markdown converter
+│   └── clean/        # Post-processing and cleaning utilities
+├── data/             # Generated Markdown files (ignored)
+├── plans/            # Implementation plans and design docs
+├── storage/          # Crawlee local storage (ignored)
 ├── app/              # Next.js frontend for browsing the wiki
 └── public/           # Static assets
 ```
@@ -39,17 +43,17 @@ pnpm install
 
 ### Running Crawlers
 
-To crawl documentation from `man7.org`:
-
+To run a specific crawler (e.g., `ruanyifeng.com`):
 ```bash
-npm run crawl:man7
+npm run crawl:ruanyifeng
 ```
 
-To crawl documentation from `linux.die.net`:
-
+Or run any crawler script directly:
 ```bash
-npm run crawl:linux
+npm run crawl crawler/some-site.ts
 ```
+
+*Note: Available crawler scripts are located in the `crawler/` directory.*
 
 *Note: You can configure `maxRequestsPerCrawl` in the crawler scripts for testing.*
 
