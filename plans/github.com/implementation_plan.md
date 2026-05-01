@@ -11,7 +11,7 @@ A CLI tool that supports the following subcommands:
 1.  **`init <repo_info> [path]`**
     - `repo_info` can be `user/repo` or a GitHub URL.
     - Clones the repo using: `git clone --depth 1 --no-checkout --filter=blob:none <url> <targetDir>`.
-    - Initializes sparse-checkout: `git sparse-checkout init --cone`.
+    - Initializes sparse-checkout (without `--cone` to allow for precise matching).
     - Sets the initial path: `git sparse-checkout set <path>`.
     - Performs initial checkout: `git checkout`.
 
@@ -36,7 +36,9 @@ This is consistent with other crawlers. The `<configured_storage_dir>` defaults 
 
 ### Nested Git Repositories
 > [!NOTE]
-> Since the `data/` directory is already in `.gitignore`, nested `.git` folders within `data/` will **not** be tracked or seen by the parent repository. This avoids any "git in git" conflicts (like accidental submodules or tracking ambiguity). Using direct `git` commands within these ignored directories is the simplest and most robust way to manage the documentation without the overhead of Git submodules.
+> Since the `data/` directory is already in `.gitignore`, nested `.git` folders within `data/` will **not** be tracked or seen by the parent repository. This avoids any "git in git" conflicts (like accidental submodules or tracking ambiguity).
+>
+> We use **non-cone** sparse-checkout mode to ensure that only the specified directories are checked out, keeping the root directory clean of non-essential files.
 
 ### Argument Parsing & execution
 - **Argument Parsing**: Manual parsing of `process.argv`.

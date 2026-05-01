@@ -77,7 +77,8 @@ async function init(repoInput: string, initialPath?: string) {
   runGit(["clone", "--depth", "1", "--no-checkout", "--filter=blob:none", repoUrl, repoDir]);
 
   // 2. Sparse-checkout init
-  runGit(["sparse-checkout", "init", "--cone"], repoDir);
+  // Removing --cone to allow for more precise path matching (only the specified directory)
+  runGit(["sparse-checkout", "init"], repoDir);
 
   // 3. Set path
   runGit(["sparse-checkout", "set", targetPath], repoDir);

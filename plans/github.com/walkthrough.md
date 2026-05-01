@@ -4,8 +4,9 @@ I have implemented a new tool `crawler/github.com.ts` that allows you to manage 
 
 ## Key Features
 
-- **Efficient Storage**: Uses `--depth 1` and `--filter=blob:none` to download only the necessary metadata, and `sparse-checkout` to only download the specific documentation files you need.
-- **Consistent Pathing**: Automatically saves repositories in `<storage_dir>/github.com/<user>/<repo>/`, consistent with other crawlers in the project.
+- **Efficient Storage**: Uses `--depth 1` and `--filter=blob:none` to download only the necessary metadata.
+- **Precise Checkout**: Uses standard `sparse-checkout` (non-cone mode) to ensure **only** the specified directories are checked out, keeping your root directory clean.
+- **Consistent Pathing**: Automatically saves repositories in `<storage_dir>/github.com/<user>/<repo>/`.
 - **No Git Conflicts**: Since repositories are stored in the ignored `data/` directory, they won't interfere with your main project's Git tracking.
 
 ## Usage Guide
