@@ -1,0 +1,6 @@
+- [x] 调研 `ypplog.cn` 站点结构与反爬机制
+- [x] 实现 `PlaywrightCrawler` (已转为 CheerioCrawler 以提高稳定性)
+- [x] 精确提取文章元数据 (Title, Date, Tags, Categories)
+- [x] 清洗正文 DOM 内容 (移除广告拦截提示、脚本等)
+- [x] 转换为 Markdown 并持久化存储
+- [x] 验证抓取效果与文件完整性
