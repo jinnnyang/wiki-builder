@@ -1,0 +1,8 @@
+- [x] Create `crawler/tailscale.com.ts`
+- [x] Implement `requestHandler`
+    - [x] DOM Cleanup (sidebar, TOC, widgets)
+    - [x] Title & Metadata extraction
+    - [x] Markdown conversion
+- [x] Implement `enqueueLinks` logic
+- [x] Test with `maxRequestsPerCrawl: 5`
+- [x] Verify generated Markdown files
