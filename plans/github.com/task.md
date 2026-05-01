@@ -1,0 +1,7 @@
+- [x] Create `crawler/github.com.ts` foundation (imports, helpers)
+- [x] Implement `init` subcommand
+- [x] Implement `add` subcommand
+- [x] Implement `remove` subcommand
+- [x] Implement `update` subcommand
+- [x] Add CLI entry point and help message
+- [x] Verify functionality with manual tests
