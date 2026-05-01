@@ -23,7 +23,9 @@
     "crawl:phodal": "tsx crawler/phodal.com.ts",
     "crawl:ruanyifeng": "tsx crawler/ruanyifeng.com.ts",
     "crawl:walkerdu": "tsx crawler/walkerdu.com.ts",
-    "crawl:ypplog": "tsx crawler/ypplog.cn.ts"
+    "crawl:ypplog": "tsx crawler/ypplog.cn.ts",
+    "crawl:dhao2001": "tsx crawler/dhao2001.com.ts",
+    "crawl:tailscale": "tsx crawler/tailscale.com.ts"
   },
   "dependencies": {
     "next": "16.2.4",
